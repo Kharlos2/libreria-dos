@@ -1,6 +1,5 @@
 package com.example.libreriaDos.service;
 
-import com.example.libreriaDos.entity.Autor;
 
 import java.util.regex.Pattern;
 
@@ -16,7 +15,12 @@ public class Verificacion {
         }
         return true;
     }
-
-
+    public static boolean verficarPseudonimoONombreApellido(String nombre, String apellido, String pseudonimo){
+        if ((!nombre.isEmpty() && !apellido.isEmpty())||!pseudonimo.isEmpty()) {
+            return true;
+        }else {
+            return false;
+        }
+    }
 
 }

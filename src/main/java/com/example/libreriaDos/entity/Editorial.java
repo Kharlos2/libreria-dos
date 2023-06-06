@@ -23,6 +23,4 @@ public class Editorial {
     @Column(length = 300)
     private String descripcion;
 
-
-
 }

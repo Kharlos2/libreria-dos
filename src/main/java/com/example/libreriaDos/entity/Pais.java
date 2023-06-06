@@ -1,14 +1,16 @@
 package com.example.libreriaDos.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+
 
 @Setter
 @Getter
@@ -22,9 +24,12 @@ public class Pais {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pais")
     private Long id;
+    @Column(unique = true)
     private String nombre;
     @OneToMany(mappedBy = "pais",cascade = CascadeType.ALL)
-    @JsonBackReference
-    private Set<Autor> autores = new HashSet<>();
+
+    @JsonIgnore
+    //@JsonManagedReference
+    private List<Autor> autores;
 
 }
