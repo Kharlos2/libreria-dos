@@ -1,6 +1,8 @@
 package com.example.libreriaDos.service;
 
+import com.example.libreriaDos.dto.autor.AutorCorrectoDto;
 import com.example.libreriaDos.entity.Autor;
+import com.example.libreriaDos.mappers.AuthorMapper;
 import com.example.libreriaDos.repository.AutorRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,13 +11,16 @@ import java.util.List;
 
 
 @Service
-public class AutorServicio implements ServiciosBase<Autor>{
+public class AutorServicio implements ServiciosBase<AutorCorrectoDto,Autor>{
     @Autowired
-    private AutorRepositorio autorRepositorio;
+    protected AutorRepositorio autorRepositorio;
+
+    @Autowired
+    public AuthorMapper authorMapper;
 
 
     @Override
-    public Autor save(Autor datos) throws Exception {
+    public AutorCorrectoDto save(Autor datos) throws Exception {
         try {
             if (!Verificacion.verficarPseudonimoONombreApellido(datos.getNombre(),datos.getApellido(), datos.getPseudonimo())){
                 throw new  Exception("El autor debe tener nombre y apellido o pseudonimo");
@@ -25,8 +30,8 @@ public class AutorServicio implements ServiciosBase<Autor>{
                 throw new Exception("Este correo ya esta registrado");
             }else if(autorRepositorio.existsByPseudonimo(datos.getPseudonimo())&&!datos.getPseudonimo().isEmpty()){
                 throw new Exception("Este pseudonimo ya esta registrado");
-            }{
-                return autorRepositorio.save(datos);
+            }else {
+                return authorMapper.toAutorDto(autorRepositorio.save(datos));
             }
         }catch (Exception error){
             throw new Exception(error.getMessage());
@@ -34,8 +39,13 @@ public class AutorServicio implements ServiciosBase<Autor>{
     }
 
     @Override
-    public List<Autor> getAll() throws Exception {
-        return autorRepositorio.findAll();
+    public List<AutorCorrectoDto> getAll() throws Exception {
+        try {
+            return authorMapper.toAutoresDto(autorRepositorio.findAll());
+
+        }catch (Exception error){
+            throw new Exception(error.getMessage());
+        }
     }
 
 }

@@ -4,6 +4,8 @@ public class AutorErrorDto extends AutorDto{
 
     private String mensaje;
 
+    public AutorErrorDto(String mensaje) {this.mensaje = mensaje;}
+
     public String getMensaje() {
         return mensaje;
     }

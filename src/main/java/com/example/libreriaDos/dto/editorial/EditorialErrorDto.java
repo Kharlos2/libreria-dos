@@ -1,10 +1,11 @@
 package com.example.libreriaDos.dto.editorial;
 
-import com.example.libreriaDos.dto.editorial.EditorialDto;
-
-public class EditorialErrorDto extends EditorialDto {
-
+public class EditorialErrorDto extends EditorialDto{
     private String mensaje;
+
+    public EditorialErrorDto(String mensaje) {
+        this.mensaje = mensaje;
+    }
 
     public String getMensaje() {
         return mensaje;

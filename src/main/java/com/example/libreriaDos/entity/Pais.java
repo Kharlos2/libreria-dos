@@ -1,21 +1,11 @@
 package com.example.libreriaDos.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 
-
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "paises")
 public class Pais {
@@ -27,9 +17,40 @@ public class Pais {
     @Column(unique = true)
     private String nombre;
     @OneToMany(mappedBy = "pais",cascade = CascadeType.ALL)
-
     @JsonIgnore
-    //@JsonManagedReference
+    //@JsonBackReference
     private List<Autor> autores;
 
+    public Pais() {
+    }
+
+    public Pais(Long id, String nombre, List<Autor> autores) {
+        this.id = id;
+        this.nombre = nombre;
+        this.autores = autores;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public List<Autor> getAutores() {
+        return autores;
+    }
+
+    public void setAutores(List<Autor> autores) {
+        this.autores = autores;
+    }
 }

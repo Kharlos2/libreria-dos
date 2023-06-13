@@ -2,13 +2,17 @@ package com.example.libreriaDos.dto.ubicacion;
 
 public class UbicacionErrorDto extends UbicacionDto{
 
-    private String mansaje;
+    private String mensaje;
 
-    public String getMansaje() {
-        return mansaje;
+    public UbicacionErrorDto(String mensaje) {
+        this.mensaje = mensaje;
     }
 
-    public void setMansaje(String mansaje) {
-        this.mansaje = mansaje;
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
     }
 }

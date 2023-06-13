@@ -1,6 +1,8 @@
 package com.example.libreriaDos.service;
 
+import com.example.libreriaDos.dto.editorial.EditorialCorrectaDto;
 import com.example.libreriaDos.entity.Editorial;
+import com.example.libreriaDos.mappers.EditorialMapper;
 import com.example.libreriaDos.repository.EditorialRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,14 +10,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class EditorialServicio implements ServiciosBase<Editorial>{
+public class EditorialServicio implements ServiciosBase<EditorialCorrectaDto,Editorial>{
 
 
     @Autowired
-    private EditorialRepositorio editorialRepositorio;
+    protected EditorialRepositorio editorialRepositorio;
+
+    @Autowired
+    protected EditorialMapper editorialMapper;
 
     @Override
-    public Editorial save(Editorial datos) throws Exception {
+    public EditorialCorrectaDto save(Editorial datos) throws Exception {
         try {
             if (editorialRepositorio.existsByNombre(datos.getNombre())){
                 throw new Exception("Ya existe este nombre");
@@ -24,7 +29,7 @@ public class EditorialServicio implements ServiciosBase<Editorial>{
             } else if (datos.getDescripcion().length()>300) {
                 throw new Exception("Excedio el limite de 300 caracteres en la descripcion");
             } else{
-                return editorialRepositorio.save(datos);
+                return editorialMapper.toEditorialCorrecta(editorialRepositorio.save(datos));
             }
         }catch (Exception error){
             throw new Exception(error.getMessage());
@@ -32,7 +37,11 @@ public class EditorialServicio implements ServiciosBase<Editorial>{
     }
 
     @Override
-    public List<Editorial> getAll() throws Exception {
-        return editorialRepositorio.findAll();
+    public List<EditorialCorrectaDto> getAll() throws Exception {
+        try {
+            return editorialMapper.toEditorialesDto(editorialRepositorio.findAll());
+        }catch (Exception error){
+            throw new Exception(error.getMessage());
+        }
     }
 }
